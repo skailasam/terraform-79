@@ -1,6 +1,7 @@
 # Cluster vars
 project            = "otl-cs-bash-csp"
 region             = "europe-west3"
+zone               = "europe-west3-a"
 vpc_name           = "xecm-vpc"
 cluster_name       = "xecm-cluster"
 cluster_nodes      = 3

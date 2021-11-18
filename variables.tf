@@ -8,6 +8,11 @@ variable "region" {
   type        = string
 }
 
+variable "zone" {
+  description = "Default zone for deploying resources"
+  type        = string
+}
+
 variable "location" {
   description = "Default location for deploying resources"
   type        = string

@@ -1,9 +1,10 @@
 provider "google" {
   project = var.project
   region  = var.region
+  zone    = var.zone
 }
 
-# Static IP ASddress
+# Static IP Address
 resource "google_compute_address" "xecm_ip_address" {
   name = var.ip_address_name
 }
