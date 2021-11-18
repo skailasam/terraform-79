@@ -15,7 +15,7 @@ resource "google_compute_network" "vpc" {
 }
 
 # GKE cluster
-resource "google_container_cluster" "primary" {
+resource "google_container_cluster" "xecm" {
   name     = var.cluster_name
   location = var.region
   

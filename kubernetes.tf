@@ -1,6 +1,20 @@
+provider "kubernetes" {
+  host                   = "https://${data.google_container_cluster.xecm.endpoint}"
+  token                  = data.google_client_config.provider.access_token
+  cluster_ca_certificate = base64decode(data.google_container_cluster.xecm.master_auth[0].cluster_ca_certificate)
+}
+
 resource "kubernetes_namespace" "xecm" {
   metadata {
     name = "xecm"
+  }
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = "https://${data.google_container_cluster.xecm.endpoint}"
+    token                  = data.google_client_config.provider.access_token
+    cluster_ca_certificate = base64decode(data.google_container_cluster.xecm.master_auth[0].cluster_ca_certificate)
   }
 }
 
@@ -26,40 +40,3 @@ resource "helm_release" "xecm" {
     value = "false"
   } 
 }
-
-
-
-
-
-/*
-resource "kubernetes_deployment" "test" {
-  metadata {
-    name      = "nginx"
-    namespace = kubernetes_namespace.test.metadata.0.name
-  }
-  spec {
-    replicas = 2
-    selector {
-      match_labels = {
-        app = "MyTestApp"
-      }
-    }
-    template {
-      metadata {
-        labels = {
-          app = "MyTestApp"
-        }
-      }
-      spec {
-        container {
-          image = "nginx"
-          name  = "nginx-container"
-          port {
-            container_port = 80
-          }
-        }
-      }
-    }
-  }
-}
-*/
