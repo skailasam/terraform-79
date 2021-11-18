@@ -1,12 +1,17 @@
 provider "google" {
-  project = var.project_id
+  project = var.project
   region  = var.region
+}
+
+# Static IP ASddress
+resource "google_compute_address" "xecm_ip_address" {
+  name = var.ip_address_name
 }
 
 # VPC
 resource "google_compute_network" "vpc" {
   name                    = var.vpc_name
-  auto_create_subnetworks = "true"
+  auto_create_subnetworks = true
 }
 
 # GKE cluster

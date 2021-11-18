@@ -8,6 +8,11 @@ variable "region" {
   type        = string
 }
 
+variable "location" {
+  description = "Default location for deploying resources"
+  type        = string
+}
+
 variable "username" {
   default     = ""
   description = "cluster username"
@@ -16,6 +21,11 @@ variable "username" {
 variable "password" {
   default     = ""
   description = "cluster password"
+}
+
+variable "ip_address_name" {
+  description = "Name of the External IP object"
+  type        = string
 }
 
 variable "vpc_name" {

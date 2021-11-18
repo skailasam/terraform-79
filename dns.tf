@@ -1,5 +1,5 @@
 resource "google_dns_managed_zone" "xecm-zone" {
-  name        = "xecm-cloud.com"
+  name        = "xecm-cloud"
   dns_name    = "xecm-cloud.com."
   description = "Extended ECM DNS zone"
 }
@@ -11,5 +11,5 @@ resource "google_dns_record_set" "otcs" {
 
   managed_zone = google_dns_managed_zone.xecm-zone.name
 
-#  rrdatas = [google_compute_instance.frontend.network_interface[0].access_config[0].nat_ip]
+  rrdatas = [google_compute_address.xecm_ip_address.address]
 }
