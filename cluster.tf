@@ -5,17 +5,16 @@ provider "google" {
 
 # VPC
 resource "google_compute_network" "vpc" {
-  name                    = "${var.cluster-name}-vpc"
+  name                    = var.vpc_name
   auto_create_subnetworks = "true"
 }
 
 # GKE cluster
 resource "google_container_cluster" "primary" {
-  name     = "${var.project_id}-gke"
+  name     = var.cluster_name
   location = var.region
   
-  initial_node_count       = "${var.cluster_nodes}"
+  initial_node_count       = var.cluster_nodes
 
   network    = google_compute_network.vpc.name
-  subnetwork = google_compute_subnetwork.subnet.name
 }

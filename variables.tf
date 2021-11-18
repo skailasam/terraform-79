@@ -18,6 +18,11 @@ variable "password" {
   description = "cluster password"
 }
 
+variable "vpc_name" {
+  description = "Name of the VPC"
+  type        = string
+}
+
 variable "cluster_name" {
   description = "Name of the cluster"
   type        = string
