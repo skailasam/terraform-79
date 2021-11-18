@@ -33,6 +33,12 @@ variable "cluster_nodes" {
   description = "Number of cluster nodes"
 }
 
+variable "machine_type" {
+  description = "Machine type for nodes"
+  type        = string
+  default     = "n2-standard-4"
+}
+
 variable "kubernetes_version" {
   description = "cluster version"
   type        = string
@@ -54,10 +60,4 @@ variable "create_service_account" {
 variable "service_account" {
   description = "Service account the worker nodes should run as"
   default     = null
-}
-
-variable "machine_type" {
-  description = "Machine type for nodes"
-  type        = string
-  default     = "n2-standard-4"
 }
