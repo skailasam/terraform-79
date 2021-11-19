@@ -6,6 +6,13 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(google_container_cluster.xecm.master_auth[0].cluster_ca_certificate)
 }
 
+provider "kubectl" {
+  host                   = "https://${google_container_cluster.xecm.endpoint}"
+  token                  = data.google_client_config.provider.access_token
+  cluster_ca_certificate = base64decode(google_container_cluster.xecm.master_auth[0].cluster_ca_certificate)
+  load_config_file       = false
+}
+
 resource "kubernetes_namespace" "xecm" {
   metadata {
     name = "xecm"
@@ -39,6 +46,14 @@ resource "helm_release" "cert_manager" {
 
   depends_on = [
     kubernetes_namespace.cert_manager
+  ]
+}
+
+resource "kubectl_manifest" "cluster_issuer" {
+  yaml_body = file("../otxecm/cluster-issuer-nginx.yaml")
+
+  depends_on = [
+    helm_release.cert_manager
   ]
 }
 
