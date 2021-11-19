@@ -18,9 +18,13 @@ resource "google_compute_network" "vpc" {
 # GKE cluster
 resource "google_container_cluster" "xecm" {
   name     = var.cluster_name
-  location = var.region
+  location = var.zone
   
   initial_node_count       = var.cluster_nodes
+
+  node_config {
+    machine_type = var.machine_type
+  }
 
   network    = google_compute_network.vpc.name
 }

@@ -1,6 +1,6 @@
 resource "google_dns_managed_zone" "xecm-zone" {
-  name        = "xecm-cloud"
-  dns_name    = "xecm-cloud.com."
+  name        = var.domain
+  dns_name    = "${var.domain}."
   description = "Extended ECM DNS zone"
 }
 

@@ -71,3 +71,13 @@ variable "service_account" {
   description = "Service account the worker nodes should run as"
   default     = null
 }
+
+variable "domain" {
+  description = "Ingress Domain Name"
+  default     = null
+}
+
+variable "namespace" {
+  description = "Kubernetes Namespace"
+  default     = "default"
+}
