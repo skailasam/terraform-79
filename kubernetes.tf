@@ -12,7 +12,7 @@ resource "kubernetes_namespace" "xecm" {
   }
 }
 
-resource "kubernetes_namespace" "cert-manager" {
+resource "kubernetes_namespace" "cert_manager" {
   metadata {
     name = "cert-manager"
   }
@@ -26,21 +26,27 @@ provider "helm" {
   }
 }
 
-resource "helm_release" "cert-manager" {
+resource "helm_release" "cert_manager" {
   name       = "cert-manager"
-  chart      = "jetstack/cert-manager"
+  repository = "https://charts.jetstack.io"
+  chart      = "cert-manager"
   namespace  = "cert-manager"
 
   set {
     name  = "installCRDs"
     value = "true"
-  } 
+  }
+
+  depends_on = [
+    kubernetes_namespace.cert_manager
+  ]
 }
 
-resource "helm_release" "otxecm-ingress" {
+resource "helm_release" "otxecm_ingress" {
   name       = "otxecm-ingress"
-  chart      = "ingress-nginx/ingress-nginx"
-  namespace  = "xecm"
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "ingress-nginx"
+  namespace  = "${var.namespace}"
 
   set {
     name  = "rabc.create=true"
@@ -55,11 +61,13 @@ resource "helm_release" "otxecm-ingress" {
 resource "helm_release" "xecm" {
   name       = "otxecm"
   chart      = "../otxecm"
-  namespace  = "xecm"
+  namespace  = "${var.namespace}"
+
+  timeout = 600
+  wait = false
 
   values = [
-    "${file("../otxecm/platforms/gcp.yaml")}",
-    "${file("../otxecm/sizings/test-nonproduction.yaml")}"
+    "${file("../otxecm/platforms/gcp.yaml")}"
   ]
   set {
     name  = "otpd-db.enabled"
@@ -72,5 +80,9 @@ resource "helm_release" "xecm" {
   set {
     name  = "otiv.enabled"
     value = "false"
+  } 
+  set {
+    name  = "otcs.image.name"
+    value = "otxecm"
   } 
 }
